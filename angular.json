@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "avnon-forms-builder"
+    }
+  },
+  "defaultProject": "avnon-forms-builder",
+  "cli": {
+    "analytics": "09c1455c-2cab-4eb5-b9d6-cd396372e704"
+  }
 }
