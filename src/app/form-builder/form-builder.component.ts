@@ -16,7 +16,7 @@ export class FormBuilderComponent implements OnInit {
   newQuestionForm = this.fb.group({
     questionControlType: ['', Validators.required],
     questionLabel: ['', Validators.required],
-    name: [''],
+    name: [this.generateUniqueId()],
     options: new FormArray([]),
     isIncludingOtherOption: [''],
     isRequired: [''],
@@ -96,5 +96,17 @@ export class FormBuilderComponent implements OnInit {
 
   previewForm(): void {
     console.log('Preview form');
+  }
+
+  generateUniqueId(length: number = 8): string {
+    let result = '';
+    const characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    console.log('FormBuilderComponent -> generateUniqueId -> result', result);
+    return result;
   }
 }
