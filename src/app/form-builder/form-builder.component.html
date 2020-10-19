@@ -1,0 +1,79 @@
+<form
+  class="builder-form"
+  [formGroup]="questionsBuilderForm"
+  (ngSubmit)="onSubmit()"
+>
+  <div formArrayName="questions">
+    <h3>Add A Question</h3>
+    <!-- <button (click)="addQuestion()" mat-raised-button color="secondary">
+      Add Question
+    </button> -->
+
+    <div
+      *ngFor="let question of questions.controls; let i = index"
+      class="questions-group"
+    >
+      <!-- Question template -->
+      <div [formGroup]="question">
+        <mat-form-field class="input-field" appearance="fill">
+          <mat-label>Question</mat-label>
+          <input
+            matInput
+            placeholder="New question"
+            id="{{ 'questionLabel' + i }}"
+            formControlName="questionLabel"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Question Type</mat-label>
+          <mat-select formControlName="questionControlType">
+            <mat-option
+              *ngFor="let control of controls"
+              [value]="control.value"
+              id="{{ 'questionControlType' + i }}"
+            >
+              {{ control.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</form>
+
+<br />
+
+<button
+  mat-raised-button
+  color="secondary"
+  class="btn-submit"
+  (click)="addQuestion()"
+  [disabled]="!questionsBuilderForm.valid"
+>
+  Submit
+</button>
+
+<!-- <button
+  mat-raised-button
+  color="secondary"
+  class="btn-submit"
+  (click)="onSubmit()"
+  type="submit"
+  [disabled]="!questionsBuilderForm.valid"
+>
+  Submit
+</button> -->
+
+<p>Form Value: {{ questionsBuilderForm.value | json }}</p>
+
+<p>Form Status: {{ questionsBuilderForm.status }}</p>
+
+<button
+  mat-raised-button
+  color="primary"
+  class="btn-preview"
+  (click)="previewForm()"
+>
+  Preview my answers
+</button>
