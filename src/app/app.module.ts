@@ -6,13 +6,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { FormBuilder } from '@angular/forms';
+import { FormBuilderComponent } from './form-builder/form-builder.component';
+import { FormPreviewComponent } from './form-preview/form-preview.component';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { FormBuilder } from '@angular/forms';
-import { FormBuilderComponent } from './form-builder/form-builder.component';
-import { FormPreviewComponent } from './form-preview/form-preview.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [AppComponent, FormBuilderComponent, FormPreviewComponent],
@@ -26,6 +28,7 @@ import { FormPreviewComponent } from './form-preview/form-preview.component';
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
+    MatCheckboxModule,
   ],
   providers: [FormBuilder],
   bootstrap: [AppComponent],

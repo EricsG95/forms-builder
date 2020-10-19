@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormArray } from '@angular/forms';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { FormBuilder, FormArray, Validators, FormGroup } from '@angular/forms';
 
 interface Control {
   value: string;
@@ -12,52 +12,86 @@ interface Control {
   styleUrls: ['./form-builder.component.scss'],
 })
 export class FormBuilderComponent implements OnInit {
-  get form() {
-    return this.questionsBuilderForm.controls;
-  }
-
-  get questionsList() {
-    return this.form.questions as FormArray;
-  }
-
-  get questions(): FormArray {
-    return this.questionsBuilderForm.get('questions') as FormArray;
-  }
-
-  questionsBuilderForm = this.fb.group({
-    questions: new FormArray([]),
+  // Single question
+  newQuestionForm = this.fb.group({
+    questionControlType: ['', Validators.required],
+    questionLabel: ['', Validators.required],
+    name: [''],
+    options: new FormArray([]),
+    isIncludingOtherOption: [''],
+    isRequired: [''],
   });
 
+  // New question options for radio and checkbox
+  get singleQuestionForm() {
+    return this.newQuestionForm.controls;
+  }
+
+  get optionsList(): FormArray {
+    return this.singleQuestionForm.options as FormArray;
+  }
+
+  get options(): FormArray {
+    return this.newQuestionForm.get('options') as FormArray;
+  }
+
   controls: Control[] = [
-    { value: 'textbox', viewValue: 'Paragraph' },
+    { value: 'paragraph', viewValue: 'Paragraph' },
     { value: 'radioButton', viewValue: 'Radio Button List' },
     { value: 'checkbox', viewValue: 'Check Box List' },
   ];
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    this.addQuestion();
+    this.onQuestionTypeChanges();
+    // this.addQuestion();
   }
 
-  addQuestion(): void {
-    this.questionsList.push(
+  onQuestionTypeChanges(): void {
+    const minOptions = 3;
+    this.newQuestionForm
+      .get('questionControlType')
+      .valueChanges.subscribe((selectedControlType) => {
+        if (
+          (selectedControlType === 'radioButton' ||
+            selectedControlType === 'checkbox') &&
+          this.optionsList.length === 0
+        ) {
+          for (let i = 0; i < minOptions; i++) {
+            this.addOptions();
+          }
+        } else if (
+          selectedControlType === 'paragraph' &&
+          this.optionsList.length !== 0
+        ) {
+          this.optionsList.clear();
+        }
+      });
+  }
+
+  // Push 3 options to the new question
+  addOptions(): void {
+    this.optionsList.push(
       this.fb.group({
-        questionControlType: [''],
-        questionLabel: [''],
-        name: [''],
-        validation: [''],
+        optionValue: ['', Validators.required],
+        isCommentToggled: [''],
+        optionComment: [''],
       })
     );
   }
 
-  removeNewProdField(index: number): void {
-    this.questionsList.removeAt(index);
+  onOptionCommentToggledChanges(option: FormGroup): void {
+    option.get('optionComment').setValidators([Validators.required]);
+    option.get('optionComment').updateValueAndValidity();
   }
 
-  onSubmit(): void {
-    // TODO: Use EventEmitter with form value
-    console.warn(this.questionsBuilderForm.value);
+  removeQuestionFromForm(index: number): void {
+    // this.questionsList.removeAt(index);
+  }
+
+  addNewQuestionToForm(): void {
+    console.warn(this.newQuestionForm.value);
   }
 
   previewForm(): void {

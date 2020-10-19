@@ -1,45 +1,94 @@
-<form
-  class="builder-form"
-  [formGroup]="questionsBuilderForm"
-  (ngSubmit)="onSubmit()"
->
-  <div formArrayName="questions">
-    <h3>Add A Question</h3>
-    <!-- <button (click)="addQuestion()" mat-raised-button color="secondary">
-      Add Question
-    </button> -->
+<form class="builder-form" [formGroup]="newQuestionForm">
+  <h3>Add A Question</h3>
 
+  <mat-form-field class="input-field" appearance="fill">
+    <mat-label>Question</mat-label>
+    <input
+      matInput
+      placeholder="New question"
+      id="questionLabel"
+      formControlName="questionLabel"
+    />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Question Type</mat-label>
+    <mat-select formControlName="questionControlType">
+      <mat-option
+        *ngFor="let control of controls"
+        [value]="control.value"
+        id="questionControlType"
+      >
+        {{ control.viewValue }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- If question is either radio or checklist-->
+  <div
+    *ngIf="
+      newQuestionForm.get('questionControlType').value === 'radioButton' ||
+      newQuestionForm.get('questionControlType').value === 'checkbox'
+    "
+  >
+    <!-- Iterative OPTIONS template -->
     <div
-      *ngFor="let question of questions.controls; let i = index"
-      class="questions-group"
+      *ngFor="let option of optionsList.controls; let i = index"
+      class="options-group"
     >
-      <!-- Question template -->
-      <div [formGroup]="question">
+      <div [formGroup]="option">
         <mat-form-field class="input-field" appearance="fill">
-          <mat-label>Question</mat-label>
+          <mat-label>Add Answer option</mat-label>
           <input
             matInput
-            placeholder="New question"
-            id="{{ 'questionLabel' + i }}"
-            formControlName="questionLabel"
+            placeholder="Add Answer option"
+            id="{{ 'optionValue' + i }}"
+            formControlName="optionValue"
           />
         </mat-form-field>
 
-        <mat-form-field appearance="fill">
-          <mat-label>Question Type</mat-label>
-          <mat-select formControlName="questionControlType">
-            <mat-option
-              *ngFor="let control of controls"
-              [value]="control.value"
-              id="{{ 'questionControlType' + i }}"
-            >
-              {{ control.viewValue }}
-            </mat-option>
-          </mat-select>
+        <mat-checkbox
+          id="{{ 'isCommentToggled' + i }}"
+          formControlName="isCommentToggled"
+          (change)="onOptionCommentToggledChanges(option)"
+        >
+        </mat-checkbox>
+
+        <mat-form-field
+          class="input-field"
+          appearance="outline"
+          *ngIf="option.get('isCommentToggled').value"
+        >
+          <input
+            matInput
+            placeholder="Add option comment"
+            id="{{ 'optionComment' + i }}"
+            formControlName="optionComment"
+          />
         </mat-form-field>
       </div>
     </div>
   </div>
+
+  <section
+    *ngIf="
+      newQuestionForm.get('questionControlType').value === 'radioButton' ||
+      newQuestionForm.get('questionControlType').value === 'checkbox'
+    "
+  >
+    <mat-checkbox
+      id="isIncludingOtherOption"
+      formControlName="isIncludingOtherOption"
+    >
+      Include 'Other' option
+    </mat-checkbox>
+  </section>
+
+  <section>
+    <mat-checkbox id="isRequired" formControlName="isRequired">
+      This question is required
+    </mat-checkbox>
+  </section>
 </form>
 
 <br />
@@ -48,26 +97,21 @@
   mat-raised-button
   color="secondary"
   class="btn-submit"
-  (click)="addQuestion()"
-  [disabled]="!questionsBuilderForm.valid"
+  (click)="addNewQuestionToForm()"
+  [disabled]="!newQuestionForm.valid"
 >
   Submit
 </button>
 
-<!-- <button
-  mat-raised-button
-  color="secondary"
-  class="btn-submit"
-  (click)="onSubmit()"
-  type="submit"
-  [disabled]="!questionsBuilderForm.valid"
->
-  Submit
-</button> -->
+<div style="color: green">
+  <p>New question</p>
+  <p>Single question value: {{ newQuestionForm.value | json }}</p>
+  <p>Single question status: {{ newQuestionForm.status }}</p>
+</div>
 
-<p>Form Value: {{ questionsBuilderForm.value | json }}</p>
-
-<p>Form Status: {{ questionsBuilderForm.status }}</p>
+<!-- <p>Full form</p>
+<p>Full form value: {{ questionsBuilderForm.value | json }}</p>
+<p>Full form status: {{ questionsBuilderForm.status }}</p> -->
 
 <button
   mat-raised-button
@@ -75,5 +119,5 @@
   class="btn-preview"
   (click)="previewForm()"
 >
-  Preview my answers
+  Preview my answers >
 </button>
