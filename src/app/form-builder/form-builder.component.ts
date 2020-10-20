@@ -48,6 +48,9 @@ export class FormBuilderComponent implements OnInit {
   constructor(private fb: FormBuilder, private router: Router) {}
 
   ngOnInit(): void {
+    if (!!localStorage.getItem('lastBuiltForm')) {
+      this.fullForm = JSON.parse(localStorage.getItem('lastBuiltForm'));
+    }
     this.onQuestionTypeChanges();
   }
 
@@ -109,11 +112,8 @@ export class FormBuilderComponent implements OnInit {
   }
 
   goToPreviewForm(): void {
-    console.log('Preview form');
-    this.router.navigate([
-      '/form-preview',
-      { data: JSON.stringify(this.fullForm) },
-    ]);
+    localStorage.setItem('lastBuiltForm', JSON.stringify(this.fullForm));
+    this.router.navigate(['/form-preview']);
   }
 
   generateUniqueId(length: number = 11): string {

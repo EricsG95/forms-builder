@@ -4,8 +4,6 @@ import {
   Input,
   Output,
   EventEmitter,
-  OnChanges,
-  SimpleChanges,
   DoCheck,
 } from '@angular/core';
 import { FieldConfig } from '../model/field-config.interface';

@@ -1,8 +1,13 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  AfterViewInit,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { Location } from '@angular/common';
 
 import { DynamicFormComponent } from '../dynamic-form/dynamic-form.component';
-import { ActivatedRoute, Params } from '@angular/router';
 import { FieldConfig } from '../model/field-config.interface';
 
 @Component({
@@ -15,17 +20,13 @@ export class FormPreviewComponent implements OnInit, AfterViewInit {
   paramsData: any;
   fullForm: FieldConfig[] = [];
 
-  constructor(
-    private cdr: ChangeDetectorRef,
-    private route: ActivatedRoute,
-    private location: Location
-  ) {}
+  constructor(private cdr: ChangeDetectorRef, private location: Location) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-      this.paramsData = params.data;
-      const paramsDataParsed = JSON.parse(this.paramsData);
-
+    if (!!localStorage.getItem('lastBuiltForm')) {
+      const paramsDataParsed = JSON.parse(
+        localStorage.getItem('lastBuiltForm')
+      );
       const submitButton: FieldConfig = {
         questionLabel: 'Submit',
         name: 'submit',
@@ -35,8 +36,8 @@ export class FormPreviewComponent implements OnInit, AfterViewInit {
       paramsDataParsed.push(submitButton);
       this.fullForm = paramsDataParsed;
 
-      console.log('fullForm', this.fullForm);
-    });
+      console.log('fullForm preview', this.fullForm);
+    }
   }
 
   ngAfterViewInit(): void {
