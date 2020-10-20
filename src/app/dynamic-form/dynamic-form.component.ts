@@ -5,6 +5,8 @@ import {
   Output,
   EventEmitter,
   OnChanges,
+  SimpleChanges,
+  DoCheck,
 } from '@angular/core';
 import { FieldConfig } from '../model/field-config.interface';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -14,7 +16,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   templateUrl: './dynamic-form.component.html',
   styleUrls: ['./dynamic-form.component.scss'],
 })
-export class DynamicFormComponent implements OnInit, OnChanges {
+export class DynamicFormComponent implements OnInit, DoCheck {
+  oldFields: FieldConfig[] = [];
+  changeDetected: boolean;
+
   @Input()
   fields: FieldConfig[] = [];
 
@@ -44,9 +49,18 @@ export class DynamicFormComponent implements OnInit, OnChanges {
     this.form = this.createGroup();
   }
 
-  ngOnChanges(): any {
-    console.log('CHANGES KICKING IN DYNAFORM');
-    console.log('THIS FIELD: ', this.fields);
+  ngDoCheck(): void {
+    if (this.fields !== this.oldFields) {
+      this.changeDetected = true;
+      this.oldFields = this.fields;
+    }
+
+    if (this.changeDetected) {
+      this.formConfigChanges();
+    }
+  }
+
+  formConfigChanges(): void {
     if (this.form) {
       const controls = Object.keys(this.form.controls);
       const configControls = this.controls.map((item) => item.name);
