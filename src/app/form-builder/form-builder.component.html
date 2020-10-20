@@ -1,4 +1,8 @@
 <form class="builder-form" [formGroup]="newQuestionForm">
+  <app-dynamic-form [fields]="fullForm"> </app-dynamic-form>
+
+  <mat-divider></mat-divider>
+
   <h3>Add A Question</h3>
 
   <mat-form-field class="input-field" appearance="fill">
@@ -13,11 +17,11 @@
 
   <mat-form-field appearance="fill">
     <mat-label>Question Type</mat-label>
-    <mat-select formControlName="questionControlType">
+    <mat-select formControlName="controlType">
       <mat-option
-        *ngFor="let control of controls"
+        *ngFor="let control of questionTypes"
         [value]="control.value"
-        id="questionControlType"
+        id="controlType"
       >
         {{ control.viewValue }}
       </mat-option>
@@ -27,8 +31,8 @@
   <!-- If question is either radio or checklist-->
   <div
     *ngIf="
-      newQuestionForm.get('questionControlType').value === 'radioButton' ||
-      newQuestionForm.get('questionControlType').value === 'checkbox'
+      newQuestionForm.get('controlType').value === 'radioButton' ||
+      newQuestionForm.get('controlType').value === 'checkbox'
     "
   >
     <!-- Iterative OPTIONS template -->
@@ -72,8 +76,8 @@
 
   <section
     *ngIf="
-      newQuestionForm.get('questionControlType').value === 'radioButton' ||
-      newQuestionForm.get('questionControlType').value === 'checkbox'
+      newQuestionForm.get('controlType').value === 'radioButton' ||
+      newQuestionForm.get('controlType').value === 'checkbox'
     "
   >
     <mat-checkbox
@@ -103,21 +107,11 @@
   Submit
 </button>
 
-<div style="color: green">
-  <p>New question</p>
-  <p>Single question value: {{ newQuestionForm.value | json }}</p>
-  <p>Single question status: {{ newQuestionForm.status }}</p>
-</div>
-
-<!-- <p>Full form</p>
-<p>Full form value: {{ questionsBuilderForm.value | json }}</p>
-<p>Full form status: {{ questionsBuilderForm.status }}</p> -->
-
 <button
   mat-raised-button
   color="primary"
   class="btn-preview"
-  (click)="previewForm()"
+  (click)="goToPreviewForm()"
 >
   Preview my answers >
 </button>

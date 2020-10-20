@@ -1,10 +1,9 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormArray, Validators, FormGroup } from '@angular/forms';
-
-interface Control {
-  value: string;
-  viewValue: string;
-}
+import { QuestionType } from '../model/question-type.interface';
+import { FieldConfig } from '../model/field-config.interface';
+import { DynamicFormComponent } from '../dynamic-form/dynamic-form.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-form-builder',
@@ -12,11 +11,16 @@ interface Control {
   styleUrls: ['./form-builder.component.scss'],
 })
 export class FormBuilderComponent implements OnInit {
+  @ViewChild(DynamicFormComponent) dynaForm: DynamicFormComponent;
+
+  // To be composed form
+  fullForm: FieldConfig[] = [];
+
   // Single question
   newQuestionForm = this.fb.group({
-    questionControlType: ['', Validators.required],
+    controlType: ['', Validators.required],
     questionLabel: ['', Validators.required],
-    name: [this.generateUniqueId()],
+    name: ['question-id-' + this.generateUniqueId()],
     options: new FormArray([]),
     isIncludingOtherOption: [''],
     isRequired: [''],
@@ -35,23 +39,22 @@ export class FormBuilderComponent implements OnInit {
     return this.newQuestionForm.get('options') as FormArray;
   }
 
-  controls: Control[] = [
+  questionTypes: QuestionType[] = [
     { value: 'paragraph', viewValue: 'Paragraph' },
     { value: 'radioButton', viewValue: 'Radio Button List' },
     { value: 'checkbox', viewValue: 'Check Box List' },
   ];
 
-  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) {}
+  constructor(private fb: FormBuilder, private router: Router) {}
 
   ngOnInit(): void {
     this.onQuestionTypeChanges();
-    // this.addQuestion();
   }
 
   onQuestionTypeChanges(): void {
     const minOptions = 3;
     this.newQuestionForm
-      .get('questionControlType')
+      .get('controlType')
       .valueChanges.subscribe((selectedControlType) => {
         if (
           (selectedControlType === 'radioButton' ||
@@ -86,27 +89,41 @@ export class FormBuilderComponent implements OnInit {
     option.get('optionComment').updateValueAndValidity();
   }
 
-  removeQuestionFromForm(index: number): void {
+  addNewQuestionToForm(): void {
+    console.log(this.newQuestionForm.value);
+
+    this.fullForm.push(this.newQuestionForm.value);
+    this.resetNewQuestionForm();
+
+    console.log('this.fullForm', this.fullForm);
+  }
+
+  resetNewQuestionForm(): void {
+    this.newQuestionForm.reset();
+    this.newQuestionForm
+      .get('name')
+      .setValue('question-id-' + this.generateUniqueId());
+  }
+
+  removeQuestionFromForm(): void {
     // this.questionsList.removeAt(index);
   }
 
-  addNewQuestionToForm(): void {
-    console.warn(this.newQuestionForm.value);
-  }
-
-  previewForm(): void {
+  goToPreviewForm(): void {
     console.log('Preview form');
+    this.router.navigate([
+      '/form-preview',
+      { data: JSON.stringify(this.fullForm) },
+    ]);
   }
 
-  generateUniqueId(length: number = 8): string {
-    let result = '';
-    const characters =
+  generateUniqueId(length: number = 11): string {
+    let uniqueId = '';
+    const chars =
       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      uniqueId += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-    console.log('FormBuilderComponent -> generateUniqueId -> result', result);
-    return result;
+    return uniqueId;
   }
 }

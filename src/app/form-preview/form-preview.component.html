@@ -1,1 +1,18 @@
-<p>form-preview works!</p>
+<app-dynamic-form
+  *ngIf="fullForm.length > 0"
+  [fields]="fullForm"
+  (submit)="submit($event)"
+>
+</app-dynamic-form>
+
+<button
+  *ngIf="fullForm.length === 0"
+  mat-raised-button
+  routerLink="/form-builder"
+>
+  Back to form builder, no form built yet
+</button>
+
+<button mat-raised-button (click)="goBack()" *ngIf="fullForm.length > 0">
+  Back to form builder
+</button>

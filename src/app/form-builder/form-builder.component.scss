@@ -1,11 +1,15 @@
+h3 {
+  margin: 15px 0;
+}
+
 .input-field {
   padding-right: 20px;
   line-height: 1.125;
   width: 50%;
 }
 
-.btn-preview,
-.btn-submit {
+button {
+  margin-top: 15px;
   display: block;
 }
 

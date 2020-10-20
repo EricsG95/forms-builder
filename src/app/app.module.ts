@@ -6,18 +6,36 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { FormBuilder } from '@angular/forms';
-import { FormBuilderComponent } from './form-builder/form-builder.component';
-import { FormPreviewComponent } from './form-preview/form-preview.component';
-
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDividerModule } from '@angular/material/divider';
+
+import { FormBuilder } from '@angular/forms';
+import { FormBuilderComponent } from './form-builder/form-builder.component';
+import { FormPreviewComponent } from './form-preview/form-preview.component';
+
+import { DynamicFormComponent } from './dynamic-form/dynamic-form.component';
+import { DynamicFieldDirective } from './dynamic-field.directive';
+import { InputComponent } from './components/input/input.component';
+import { CheckboxComponent } from './components/checkbox/checkbox.component';
+import { RadiobuttonComponent } from './components/radiobutton/radiobutton.component';
+import { ButtonComponent } from './components/button/button.component';
 
 @NgModule({
-  declarations: [AppComponent, FormBuilderComponent, FormPreviewComponent],
+  declarations: [
+    AppComponent,
+    FormBuilderComponent,
+    FormPreviewComponent,
+    DynamicFormComponent,
+    DynamicFieldDirective,
+    InputComponent,
+    CheckboxComponent,
+    RadiobuttonComponent,
+    ButtonComponent,
+  ],
   imports: [
     BrowserModule,
     FormsModule,
@@ -29,6 +47,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatSelectModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatDividerModule,
   ],
   providers: [FormBuilder],
   bootstrap: [AppComponent],
