@@ -3,7 +3,7 @@ import { FormBuilder, FormArray, Validators, FormGroup } from '@angular/forms';
 import { QuestionType } from '../model/question-type.interface';
 import { FieldConfig } from '../model/field-config.interface';
 import { DynamicFormComponent } from '../dynamic-form/dynamic-form.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-form-builder',
@@ -27,7 +27,7 @@ export class FormBuilderComponent implements OnInit {
   });
 
   // New question options for radio and checkbox
-  get singleQuestionForm() {
+  get singleQuestionForm(): any {
     return this.newQuestionForm.controls;
   }
 
@@ -94,7 +94,6 @@ export class FormBuilderComponent implements OnInit {
 
     this.fullForm.push(this.newQuestionForm.value);
     this.resetNewQuestionForm();
-
     console.log('this.fullForm', this.fullForm);
   }
 

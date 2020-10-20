@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { Location } from '@angular/common';
 
 import { DynamicFormComponent } from '../dynamic-form/dynamic-form.component';
@@ -15,7 +15,11 @@ export class FormPreviewComponent implements OnInit, AfterViewInit {
   paramsData: any;
   fullForm: FieldConfig[] = [];
 
-  constructor(private route: ActivatedRoute, private location: Location) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute,
+    private location: Location
+  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -23,7 +27,6 @@ export class FormPreviewComponent implements OnInit, AfterViewInit {
       const paramsDataParsed = JSON.parse(this.paramsData);
 
       const submitButton: FieldConfig = {
-        disabled: true,
         questionLabel: 'Submit',
         name: 'submit',
         controlType: 'button',
@@ -32,11 +35,22 @@ export class FormPreviewComponent implements OnInit, AfterViewInit {
       paramsDataParsed.push(submitButton);
       this.fullForm = paramsDataParsed;
 
-      console.log('fullForm -> ngOnInit -> this.param', this.fullForm);
+      console.log('fullForm', this.fullForm);
     });
   }
 
   ngAfterViewInit(): void {
+    console.log(
+      'FormPreviewComponent -> ngOnInit -> this.form.valid',
+      this.form.valid
+    );
+
+    if (this.form.valid) {
+      this.form.setDisabled('submit', false);
+    } else {
+      this.form.setDisabled('submit', true);
+    }
+
     let previousValid = this.form.valid;
     this.form.changes.subscribe(() => {
       if (this.form.valid !== previousValid) {
@@ -45,7 +59,7 @@ export class FormPreviewComponent implements OnInit, AfterViewInit {
       }
     });
 
-    this.form.setDisabled('submit', true);
+    this.cdr.detectChanges();
   }
 
   submit(value: { [name: string]: any }): void {

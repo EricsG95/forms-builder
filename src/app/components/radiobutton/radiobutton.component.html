@@ -1,1 +1,11 @@
-<p>radiobutton works!</p>
+<div [formGroup]="group">
+  <label class="radio-label-padding">{{ config.questionLabel }}:</label>
+  <mat-radio-group class="radio-group" [formControlName]="config.name">
+    <mat-radio-button
+      class="radio-button"
+      *ngFor="let option of config.options"
+      [value]="option"
+      >{{ option.optionValue }}</mat-radio-button
+    >
+  </mat-radio-group>
+</div>

@@ -5,7 +5,7 @@ import {
   ViewContainerRef,
   OnInit,
   Type,
-  ComponentRef,
+  ComponentRef, 
   OnChanges,
 } from '@angular/core';
 import { FieldConfig } from './model/field-config.interface';
@@ -13,9 +13,13 @@ import { FormGroup } from '@angular/forms';
 import { InputComponent } from './components/input/input.component';
 import { Field } from './model/field.interface';
 import { ButtonComponent } from './components/button/button.component';
+import { RadiobuttonComponent } from './components/radiobutton/radiobutton.component';
+import { CheckboxComponent } from './components/checkbox/checkbox.component';
 
 const componentMapper: { [type: string]: Type<Field> } = {
   paragraph: InputComponent,
+  radioButton: RadiobuttonComponent,
+  checkbox: CheckboxComponent,
   button: ButtonComponent,
 };
 @Directive({

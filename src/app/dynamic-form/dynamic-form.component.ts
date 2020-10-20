@@ -45,6 +45,8 @@ export class DynamicFormComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): any {
+    console.log('CHANGES KICKING IN DYNAFORM');
+    console.log('THIS FIELD: ', this.fields);
     if (this.form) {
       const controls = Object.keys(this.form.controls);
       const configControls = this.controls.map((item) => item.name);
@@ -62,16 +64,6 @@ export class DynamicFormComponent implements OnInit, OnChanges {
     }
   }
 
-  onSubmit(event: Event): void {
-    event.preventDefault();
-    event.stopPropagation();
-    if (this.form.valid) {
-      this.submit.emit(this.form.value);
-    } else {
-      this.validateAllFormFields(this.form);
-    }
-  }
-
   createGroup(): any {
     const group = this.fb.group({});
     this.controls.forEach((control) =>
@@ -85,18 +77,10 @@ export class DynamicFormComponent implements OnInit, OnChanges {
     return this.fb.control(value, this.bindValidations(config.isRequired));
   }
 
-  bindValidations(isRequired: boolean): Validators {
-    if (isRequired) {
-      return Validators.required;
-    }
-    return null;
-  }
-
-  validateAllFormFields(formGroup: FormGroup): void {
-    Object.keys(formGroup.controls).forEach((field) => {
-      const control = formGroup.get(field);
-      control.markAsTouched({ onlySelf: true });
-    });
+  handleSubmit(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.submit.emit(this.value);
   }
 
   setDisabled(name: string, disable: boolean): any {
@@ -112,6 +96,13 @@ export class DynamicFormComponent implements OnInit, OnChanges {
       }
       return item;
     });
+  }
+
+  bindValidations(isRequired: boolean): Validators {
+    if (isRequired) {
+      return Validators.required;
+    }
+    return null;
   }
 
   setValue(name: string, value: any): void {

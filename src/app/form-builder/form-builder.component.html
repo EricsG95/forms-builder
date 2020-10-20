@@ -1,8 +1,9 @@
+<app-dynamic-form *ngIf="fullForm.length > 0" [fields]="fullForm">
+</app-dynamic-form>
+
+<mat-divider></mat-divider>
+
 <form class="builder-form" [formGroup]="newQuestionForm">
-  <app-dynamic-form [fields]="fullForm"> </app-dynamic-form>
-
-  <mat-divider></mat-divider>
-
   <h3>Add A Question</h3>
 
   <mat-form-field class="input-field" appearance="fill">
@@ -100,18 +101,12 @@
 <button
   mat-raised-button
   color="secondary"
-  class="btn-submit"
   (click)="addNewQuestionToForm()"
   [disabled]="!newQuestionForm.valid"
 >
   Submit
 </button>
 
-<button
-  mat-raised-button
-  color="primary"
-  class="btn-preview"
-  (click)="goToPreviewForm()"
->
+<button mat-raised-button color="primary" (click)="goToPreviewForm()">
   Preview my answers >
 </button>
