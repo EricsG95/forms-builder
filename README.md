@@ -16,11 +16,11 @@ Such a design lays a strong foundation to build a project that is scalable and m
 
 ## Screens
 ### Form Builder
-![Builder](https://ibb.co/3YRVJLg)
+![Builder](/screenshots/builder.png)
 ### Edit Question
-![Builder](https://ibb.co/024hCrG)
+![Edit](/screenshots/edit.png)
 ### Form Playback
-![Playback](https://ibb.co/j5c5j8S)
+![Playback](/screenshots/playback.png)
 
 ## Development server
 
