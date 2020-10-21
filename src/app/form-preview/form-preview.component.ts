@@ -35,17 +35,10 @@ export class FormPreviewComponent implements OnInit, AfterViewInit {
 
       paramsDataParsed.push(submitButton);
       this.fullForm = paramsDataParsed;
-
-      console.log('fullForm preview', this.fullForm);
     }
   }
 
   ngAfterViewInit(): void {
-    console.log(
-      'FormPreviewComponent -> ngOnInit -> this.form.valid',
-      this.form.valid
-    );
-
     if (this.form.valid) {
       this.form.setDisabled('submit', false);
     } else {
@@ -64,7 +57,7 @@ export class FormPreviewComponent implements OnInit, AfterViewInit {
   }
 
   submit(value: { [name: string]: any }): void {
-    console.log('From form preview: ', value);
+    console.log('Form preview submit: ', value);
   }
 
   goBack(): void {

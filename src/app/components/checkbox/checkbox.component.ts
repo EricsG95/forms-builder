@@ -61,8 +61,6 @@ export class CheckboxComponent implements Field {
   }
 
   onChangeOther($event): void {
-    console.log('customOtherOption', this.customOtherOption);
-
     const checks = (this.group.get(this.config.name) as FormArray) as FormArray;
 
     if ($event.checked) {

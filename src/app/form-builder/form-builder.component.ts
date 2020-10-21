@@ -61,10 +61,8 @@ export class FormBuilderComponent implements OnInit {
 
     this.editService.editingState.subscribe((editingState) => {
       if (editingState.state === 'DELETE') {
-        console.log('DELETE STATE', editingState.fieldConfig);
         this.removeQuestionFromForm(editingState.fieldConfig);
       } else if (editingState.state === 'EDIT') {
-        console.log('EDIT STATE', editingState.fieldConfig);
         this.setToEditQuestionMode(editingState.fieldConfig);
       }
     });
@@ -109,11 +107,8 @@ export class FormBuilderComponent implements OnInit {
   }
 
   addNewQuestionToForm(): void {
-    console.log(this.newQuestionForm.value);
-
     this.fullForm.push(this.newQuestionForm.value);
     this.resetNewQuestionForm();
-    console.log('this.fullForm', this.fullForm);
   }
 
   resetNewQuestionForm(): void {

@@ -5,7 +5,7 @@ import {
   ViewContainerRef,
   OnInit,
   Type,
-  ComponentRef, 
+  ComponentRef,
   OnChanges,
 } from '@angular/core';
 import { FieldConfig } from './model/field-config.interface';
