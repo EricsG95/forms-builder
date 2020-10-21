@@ -100,7 +100,7 @@
 
 <button
   mat-raised-button
-  color="secondary"
+  color="primary"
   (click)="addNewQuestionToForm()"
   [disabled]="!newQuestionForm.valid || isEditingMode === true"
 >
@@ -110,13 +110,18 @@
 <button
   class="button--builder ml-10"
   mat-raised-button
-  color="secondary"
+  color="accent"
   (click)="updateQuestion()"
   [disabled]="isEditingMode !== true"
 >
   Update Question
 </button>
 
-<button class="button--preview" mat-raised-button color="primary" (click)="goToPreviewForm()">
+<button
+  class="button--preview"
+  mat-raised-button
+  color="secondary"
+  (click)="goToPreviewForm()"
+>
   Preview my answers >
 </button>

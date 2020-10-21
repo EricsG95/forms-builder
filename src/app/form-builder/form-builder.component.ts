@@ -131,6 +131,7 @@ export class FormBuilderComponent implements OnInit {
       .indexOf(fieldToRemove.name);
 
     this.fullForm.splice(removeIndex, 1);
+    this.saveFormLocalStorage();
   }
 
   setToEditQuestionMode(fieldToEdit: FieldConfig): void {

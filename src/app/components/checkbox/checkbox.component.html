@@ -1,38 +1,50 @@
-<div [formGroup]="group" class="checbox-group">
-  <label
-    >{{ config.questionLabel }}
-    <div class="is-required" *ngIf="config.isRequired">*</div></label
-  >
-  <div class="checkbox-options">
-    <div *ngFor="let option of config.options; let i = index">
-      <mat-checkbox
-        [formArrayName]="config.name"
-        class="checkbox"
-        (change)="onChange($event)"
-        [value]="option.optionValue"
-        >{{ option.optionValue }}
-      </mat-checkbox>
-      <div *ngIf="option.isCommentToggled" class="checkbox-options__comment">
-        {{ option.optionComment }}
+<div class="f-grid">
+  <div class="f-grid-cell main-panel">
+    <div [formGroup]="group" class="checbox-group">
+      <label
+        >{{ config.questionLabel }}
+        <div class="is-required" *ngIf="config.isRequired">*</div></label
+      >
+      <div class="checkbox-options">
+        <div *ngFor="let option of config.options; let i = index">
+          <mat-checkbox
+            [formArrayName]="config.name"
+            class="checkbox"
+            (change)="onChange($event)"
+            [value]="option.optionValue"
+            >{{ option.optionValue }}
+          </mat-checkbox>
+          <div
+            *ngIf="option.isCommentToggled"
+            class="checkbox-options__comment"
+          >
+            {{ option.optionComment }}
+          </div>
+        </div>
+
+        <!-- Other input selection -->
+        <mat-checkbox
+          [formArrayName]="config.name"
+          *ngIf="config.isIncludingOtherOption"
+          class="checkbox"
+          (change)="onChangeOther($event)"
+          [value]="customOtherOption"
+        >
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="Other"
+              [(ngModel)]="customOtherOption"
+              [ngModelOptions]="{ standalone: true }"
+            />
+          </mat-form-field>
+        </mat-checkbox>
       </div>
     </div>
+  </div>
 
-    <!-- Other input selection -->
-    <mat-checkbox
-      [formArrayName]="config.name"
-      *ngIf="config.isIncludingOtherOption"
-      class="checkbox"
-      (change)="onChangeOther($event)"
-      [value]="customOtherOption"
-    >
-      <mat-form-field>
-        <input
-          matInput
-          placeholder="Other"
-          [(ngModel)]="customOtherOption"
-          [ngModelOptions]="{ standalone: true }"
-        />
-      </mat-form-field>
-    </mat-checkbox>
+  <div class="f-grid-cell sub-panel" *ngIf="isEditorMode">
+    <button mat-flat-button color="accent" (click)="edit()">Edit</button>
+    <button mat-flat-button color="warn" (click)="delete()">Delete</button>
   </div>
 </div>

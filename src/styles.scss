@@ -9,14 +9,7 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.main-panel {
-  display: inline-block;
-  width: 80%;
-}
-
 .sub-panel {
-  display: inline-block;
-  width: 20%;
   button {
     margin-left: 10px;
   }
@@ -31,4 +24,17 @@ body {
 
 .ml-10 {
   margin-left: 10px;
+}
+
+.f-grid {
+  display: flex;
+  justify-content: space-between;
+  margin-left: -1rem;
+  flex-flow: row wrap;
+}
+
+.f-grid-cell {
+  flex: 1 0;
+  margin-left: 1rem;
+  margin-bottom: 1rem;
 }

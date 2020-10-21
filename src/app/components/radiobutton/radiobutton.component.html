@@ -1,37 +1,46 @@
-<div [formGroup]="group">
-  <label
-    >{{ config.questionLabel }}
-    <div class="is-required" *ngIf="config.isRequired">*</div></label
-  >
+<div class="f-grid">
+  <div class="f-grid-cell main-panel">
+    <div [formGroup]="group">
+      <label
+        >{{ config.questionLabel }}
+        <div class="is-required" *ngIf="config.isRequired">*</div></label
+      >
 
-  <mat-radio-group class="radio-group" [formControlName]="config.name">
-    <mat-radio-button
-      class="radio-button"
-      *ngFor="let option of config.options"
-      [value]="option.optionValue"
-    >
-      <div class="option">
-        {{ option.optionValue }}
-      </div>
-      <div *ngIf="option.isCommentToggled" class="option__comment">
-        {{ option.optionComment }}
-      </div>
-    </mat-radio-button>
+      <mat-radio-group class="radio-group" [formControlName]="config.name">
+        <mat-radio-button
+          class="radio-button"
+          *ngFor="let option of config.options"
+          [value]="option.optionValue"
+        >
+          <div class="option">
+            {{ option.optionValue }}
+          </div>
+          <div *ngIf="option.isCommentToggled" class="option__comment">
+            {{ option.optionComment }}
+          </div>
+        </mat-radio-button>
 
-    <!-- Other input selection -->
-    <mat-radio-button
-      class="radio-button"
-      *ngIf="config.isIncludingOtherOption"
-      value=""
-    >
-      <mat-form-field>
-        <input
-          matInput
-          placeholder="Other"
-          [formControlName]="config.name"
-          [(value)]="customOtherOption"
-        />
-      </mat-form-field>
-    </mat-radio-button>
-  </mat-radio-group>
+        <!-- Other input selection -->
+        <mat-radio-button
+          class="radio-button"
+          *ngIf="config.isIncludingOtherOption"
+          value=""
+        >
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="Other"
+              [formControlName]="config.name"
+              [(value)]="customOtherOption"
+            />
+          </mat-form-field>
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+
+  <div class="f-grid-cell sub-panel" *ngIf="isEditorMode">
+    <button mat-flat-button color="accent" (click)="edit()">Edit</button>
+    <button mat-flat-button color="warn" (click)="delete()">Delete</button>
+  </div>
 </div>

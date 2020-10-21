@@ -1,13 +1,19 @@
-<div class="main-panel">
-  <mat-form-field [formGroup]="group" appearance="standard" class="input-field">
-    <mat-label
-      >{{ config.questionLabel }}
-      <div class="is-required" *ngIf="config.isRequired">*</div>
-    </mat-label>
-    <textarea matInput [formControlName]="config.name" type="text"></textarea>
-  </mat-form-field>
-</div>
-<div class="sub-panel" *ngIf="isEditorMode">
-  <button mat-flat-button color="accent" (click)="edit()">Edit</button>
-  <button mat-flat-button color="warn" (click)="delete()">Delete</button>
+<div class="f-grid">
+  <div class="f-grid-cell main-panel">
+    <mat-form-field
+      [formGroup]="group"
+      appearance="standard"
+      class="input-field"
+    >
+      <mat-label
+        >{{ config.questionLabel }}
+        <div class="is-required" *ngIf="config.isRequired">*</div>
+      </mat-label>
+      <textarea matInput [formControlName]="config.name" type="text"></textarea>
+    </mat-form-field>
+  </div>
+  <div class="f-grid-cell sub-panel" *ngIf="isEditorMode">
+    <button mat-flat-button color="accent" (click)="edit()">Edit</button>
+    <button mat-flat-button color="warn" (click)="delete()">Delete</button>
+  </div>
 </div>

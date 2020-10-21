@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { FormBuilder } from '@angular/forms';
 import { FormBuilderComponent } from './form-builder/form-builder.component';
@@ -50,6 +51,7 @@ import { ButtonComponent } from './components/button/button.component';
     MatCheckboxModule,
     MatDividerModule,
     MatRadioModule,
+    MatToolbarModule,
   ],
   providers: [FormBuilder],
   bootstrap: [AppComponent],
