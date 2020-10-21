@@ -15,16 +15,14 @@ export class CheckboxComponent implements Field {
   checks: any = [];
   selected: any;
 
-  onChange(event): void {
-    // const checks = (this.group.get(this.config.name) as FormArray) as FormArray;
-
+  onChange($event): void {
     const checks = (this.group.get(this.config.name) as FormArray) as FormArray;
 
-    if (event.checked) {
-      checks.push(new FormControl(event.source.value));
+    if ($event.checked) {
+      checks.push(new FormControl($event.source.value));
     } else {
       const i = checks.controls.findIndex(
-        (x) => x.value === event.source.value
+        (x) => x.value === $event.source.value
       );
       checks.removeAt(i);
     }

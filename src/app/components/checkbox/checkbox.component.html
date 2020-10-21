@@ -3,6 +3,7 @@
   <div class="checkbox-options">
     <div *ngFor="let option of config.options; let i = index">
       <mat-checkbox
+        [formArrayName]="config.name"
         class="checkbox"
         (change)="onChange($event)"
         [value]="option.optionValue"

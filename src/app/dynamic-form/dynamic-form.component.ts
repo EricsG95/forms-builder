@@ -7,7 +7,13 @@ import {
   DoCheck,
 } from '@angular/core';
 import { FieldConfig } from '../model/field-config.interface';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  ValidatorFn,
+  FormArray,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -119,8 +125,9 @@ export class DynamicFormComponent implements OnInit, DoCheck {
   bindValidations(isRequired: boolean): Validators {
     if (isRequired) {
       return Validators.required;
+    } else {
+      return null;
     }
-    return null;
   }
 
   setValue(name: string, value: any): void {
