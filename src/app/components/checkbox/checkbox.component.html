@@ -1,5 +1,8 @@
 <div [formGroup]="group" class="checbox-group">
-  <label>{{ config.questionLabel }}</label>
+  <label
+    >{{ config.questionLabel }}
+    <div class="is-required" *ngIf="config.isRequired">*</div></label
+  >
   <div class="checkbox-options">
     <div *ngFor="let option of config.options; let i = index">
       <mat-checkbox
@@ -9,6 +12,9 @@
         [value]="option.optionValue"
         >{{ option.optionValue }}
       </mat-checkbox>
+      <div *ngIf="option.isCommentToggled" class="checkbox-options__comment">
+        {{ option.optionComment }}
+      </div>
     </div>
   </div>
 </div>

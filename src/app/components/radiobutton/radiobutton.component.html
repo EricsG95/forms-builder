@@ -1,5 +1,9 @@
 <div [formGroup]="group">
-  <label>{{ config.questionLabel }}</label>
+  <label
+    >{{ config.questionLabel }}
+    <div class="is-required" *ngIf="config.isRequired">*</div></label
+  >
+
   <mat-radio-group class="radio-group" [formControlName]="config.name">
     <mat-radio-button
       class="radio-button"
@@ -18,17 +22,16 @@
     <mat-radio-button
       class="radio-button"
       *ngIf="config.isIncludingOtherOption"
-      value="other"
+      value=""
     >
-      <div class="option">Other</div>
-      <!-- <mat-form-field>
+      <mat-form-field>
         <input
           matInput
           placeholder="Other"
-          [value]="customOtherOption"
           [formControlName]="config.name"
+          [(value)]="customOtherOption"
         />
-      </mat-form-field> -->
+      </mat-form-field>
     </mat-radio-button>
   </mat-radio-group>
 </div>

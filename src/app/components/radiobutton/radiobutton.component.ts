@@ -1,31 +1,50 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Field } from '../../model/field.interface';
 import { FieldConfig } from '../../model/field-config.interface';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-radiobutton',
   templateUrl: './radiobutton.component.html',
   styleUrls: ['./radiobutton.component.scss'],
 })
-export class RadiobuttonComponent implements Field {
+export class RadiobuttonComponent implements Field, OnInit {
   config: FieldConfig;
   group: FormGroup;
 
   customOtherOption = '';
 
-  // onStandardChanged($event): void {
-  //   console.log('RadiobuttonComponent -> $event', $event.value);
+  get radioControl(): FormControl {
+    return this.group.get(this.config.name) as FormControl;
+  }
 
-  //   this.customOtherOption = '';
-  // }
+  ngOnInit(): void {
+    this.radioControl.valueChanges.subscribe((value) => {
+      if (value === '') {
+        this.validateAllFormFields(this.group);
+      }
+    });
+  }
 
-  // onCustomChanged($event): void {
-  //   console.log('RadiobuttonComponent -> $event', $event.value);
+  validateAllFormFields(formGroup: FormGroup): void {
+    Object.keys(formGroup.controls).forEach((field) => {
+      const control = formGroup.get(field);
+      control.markAsTouched({ onlySelf: true });
+    });
+  }
 
-  //   console.log(
-  //     'RadiobuttonComponent -> customOtherOption',
-  //     this.customOtherOption
-  //   );
-  // }
+  clearValidation(formGroup: FormGroup): void {
+    Object.keys(formGroup.controls).forEach((field) => {
+      const control = formGroup.get(field);
+      control.markAsPristine();
+    });
+  }
+
+  bindValidations(isRequired: boolean): Validators {
+    if (isRequired) {
+      return Validators.required;
+    } else {
+      return null;
+    }
+  }
 }

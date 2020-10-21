@@ -1,4 +1,7 @@
 <mat-form-field [formGroup]="group" appearance="standard" class="input-field">
-  <mat-label>{{ config.questionLabel }}</mat-label>
+  <mat-label
+    >{{ config.questionLabel }}
+    <div class="is-required" *ngIf="config.isRequired">*</div>
+  </mat-label>
   <textarea matInput [formControlName]="config.name" type="text"></textarea>
 </mat-form-field>

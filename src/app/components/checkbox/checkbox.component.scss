@@ -8,4 +8,16 @@
 
 .checkbox-options {
   padding: 15px 0;
+  &__comment {
+    color: grey;
+    opacity: 0.7;
+    display: inline;
+  }
+}
+
+.is-required {
+  display: inline;
+  padding-left: 5px;
+  color: red;
+  font-weight: bolder;
 }

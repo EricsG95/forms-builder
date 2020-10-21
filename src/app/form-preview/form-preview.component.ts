@@ -65,6 +65,7 @@ export class FormPreviewComponent implements OnInit, AfterViewInit {
 
   submit(value: { [name: string]: any }): void {
     console.log('From form preview: ', value);
+    alert('Form submitted!');
   }
 
   goBack(): void {

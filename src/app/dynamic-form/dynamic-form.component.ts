@@ -7,13 +7,7 @@ import {
   DoCheck,
 } from '@angular/core';
 import { FieldConfig } from '../model/field-config.interface';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  ValidatorFn,
-  FormArray,
-} from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -84,9 +78,9 @@ export class DynamicFormComponent implements OnInit, DoCheck {
 
   createGroup(): any {
     const group = this.fb.group({});
-    this.controls.forEach((control) =>
-      group.addControl(control.name, this.createControl(control))
-    );
+    this.controls.forEach((control: FieldConfig) => {
+      group.addControl(control.name, this.createControl(control));
+    });
     return group;
   }
 
