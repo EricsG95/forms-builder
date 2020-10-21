@@ -1,1 +1,13 @@
-<p>checkbox works!</p>
+<div [formGroup]="group" class="checbox-group">
+  <label>{{ config.questionLabel }}</label>
+  <div class="checkbox-options">
+    <div *ngFor="let option of config.options; let i = index">
+      <mat-checkbox
+        class="checkbox"
+        (change)="onChange($event)"
+        [value]="option.optionValue"
+        >{{ option.optionValue }}
+      </mat-checkbox>
+    </div>
+  </div>
+</div>

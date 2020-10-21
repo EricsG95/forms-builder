@@ -1,11 +1,34 @@
 <div [formGroup]="group">
-  <label class="radio-label-padding">{{ config.questionLabel }}:</label>
+  <label>{{ config.questionLabel }}</label>
   <mat-radio-group class="radio-group" [formControlName]="config.name">
     <mat-radio-button
       class="radio-button"
       *ngFor="let option of config.options"
-      [value]="option"
-      >{{ option.optionValue }}</mat-radio-button
+      [value]="option.optionValue"
     >
+      <div class="option">
+        {{ option.optionValue }}
+      </div>
+      <div *ngIf="option.isCommentToggled" class="option__comment">
+        {{ option.optionComment }}
+      </div>
+    </mat-radio-button>
+
+    <!-- Other input selection -->
+    <mat-radio-button
+      class="radio-button"
+      *ngIf="config.isIncludingOtherOption"
+      value="other"
+    >
+      <div class="option">Other</div>
+      <!-- <mat-form-field>
+        <input
+          matInput
+          placeholder="Other"
+          [value]="customOtherOption"
+          [formControlName]="config.name"
+        />
+      </mat-form-field> -->
+    </mat-radio-button>
   </mat-radio-group>
 </div>

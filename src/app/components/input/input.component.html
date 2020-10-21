@@ -1,9 +1,4 @@
-<mat-form-field [formGroup]="group" appearance="fill" class="input-field">
+<mat-form-field [formGroup]="group" appearance="standard" class="input-field">
   <mat-label>{{ config.questionLabel }}</mat-label>
-  <textarea
-    matInput
-    [formControlName]="config.name"
-    type="text"
-    value=""
-  ></textarea>
+  <textarea matInput [formControlName]="config.name" type="text"></textarea>
 </mat-form-field>

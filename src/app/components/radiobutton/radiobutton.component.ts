@@ -11,4 +11,21 @@ import { FormGroup } from '@angular/forms';
 export class RadiobuttonComponent implements Field {
   config: FieldConfig;
   group: FormGroup;
+
+  customOtherOption = '';
+
+  // onStandardChanged($event): void {
+  //   console.log('RadiobuttonComponent -> $event', $event.value);
+
+  //   this.customOtherOption = '';
+  // }
+
+  // onCustomChanged($event): void {
+  //   console.log('RadiobuttonComponent -> $event', $event.value);
+
+  //   console.log(
+  //     'RadiobuttonComponent -> customOtherOption',
+  //     this.customOtherOption
+  //   );
+  // }
 }

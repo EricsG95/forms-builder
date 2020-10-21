@@ -85,8 +85,14 @@ export class DynamicFormComponent implements OnInit, DoCheck {
   }
 
   createControl(config: FieldConfig): any {
-    const value = undefined;
-    return this.fb.control(value, this.bindValidations(config.isRequired));
+    if (config.controlType === 'checkbox') {
+      return this.fb.array([], this.bindValidations(config.isRequired));
+    } else {
+      return this.fb.control(
+        undefined,
+        this.bindValidations(config.isRequired)
+      );
+    }
   }
 
   handleSubmit(event: Event): void {

@@ -7,3 +7,12 @@
 .radio-button {
   margin: 5px;
 }
+
+.option {
+  display: inline;
+  &__comment {
+    color: grey;
+    opacity: 0.7;
+    display: inline;
+  }
+}
