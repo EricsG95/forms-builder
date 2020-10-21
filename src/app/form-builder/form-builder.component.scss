@@ -10,7 +10,12 @@ h3 {
 
 button {
   margin-top: 15px;
-  display: block;
+  display: inline;
+}
+
+.button--builder {
+  display: inline;
+  margin-left: 10px;
 }
 
 .questions-group {
@@ -19,4 +24,8 @@ button {
 
 p {
   margin-top: 15px;
+}
+
+.button--preview {
+  display: block;
 }

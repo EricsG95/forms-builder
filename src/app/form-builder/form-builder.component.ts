@@ -4,6 +4,7 @@ import { QuestionType } from '../model/question-type.interface';
 import { FieldConfig } from '../model/field-config.interface';
 import { DynamicFormComponent } from '../dynamic-form/dynamic-form.component';
 import { Router } from '@angular/router';
+import { EditorialServiceService } from '../editorial-service.service';
 
 @Component({
   selector: 'app-form-builder',
@@ -15,6 +16,7 @@ export class FormBuilderComponent implements OnInit {
 
   // To be composed form
   fullForm: FieldConfig[] = [];
+  isEditingMode = false;
 
   // Single question
   newQuestionForm = this.fb.group({
@@ -45,13 +47,27 @@ export class FormBuilderComponent implements OnInit {
     { value: 'checkbox', viewValue: 'Check Box List' },
   ];
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private editService: EditorialServiceService
+  ) {}
 
   ngOnInit(): void {
     if (!!localStorage.getItem('lastBuiltForm')) {
       this.fullForm = JSON.parse(localStorage.getItem('lastBuiltForm'));
     }
     this.onQuestionTypeChanges();
+
+    this.editService.editingState.subscribe((editingState) => {
+      if (editingState.state === 'DELETE') {
+        console.log('DELETE STATE', editingState.fieldConfig);
+        this.removeQuestionFromForm(editingState.fieldConfig);
+      } else if (editingState.state === 'EDIT') {
+        console.log('EDIT STATE', editingState.fieldConfig);
+        this.setToEditQuestionMode(editingState.fieldConfig);
+      }
+    });
   }
 
   onQuestionTypeChanges(): void {
@@ -107,13 +123,41 @@ export class FormBuilderComponent implements OnInit {
       .setValue('question-id-' + this.generateUniqueId());
   }
 
-  removeQuestionFromForm(): void {
-    // this.questionsList.removeAt(index);
+  removeQuestionFromForm(fieldToRemove: FieldConfig): void {
+    const removeIndex = this.fullForm
+      .map((question) => {
+        return question.name;
+      })
+      .indexOf(fieldToRemove.name);
+
+    this.fullForm.splice(removeIndex, 1);
+  }
+
+  setToEditQuestionMode(fieldToEdit: FieldConfig): void {
+    this.isEditingMode = true;
+    this.newQuestionForm.setValue(fieldToEdit);
+  }
+
+  updateQuestion(): void {
+    const editIndex = this.fullForm
+      .map((question) => {
+        return question.name;
+      })
+      .indexOf(this.newQuestionForm.value.name);
+
+    this.fullForm[editIndex] = this.newQuestionForm.value;
+    this.resetNewQuestionForm();
+    this.isEditingMode = false;
+    this.saveFormLocalStorage();
   }
 
   goToPreviewForm(): void {
-    localStorage.setItem('lastBuiltForm', JSON.stringify(this.fullForm));
+    this.saveFormLocalStorage();
     this.router.navigate(['/form-preview']);
+  }
+
+  saveFormLocalStorage(): void {
+    localStorage.setItem('lastBuiltForm', JSON.stringify(this.fullForm));
   }
 
   generateUniqueId(length: number = 11): string {
