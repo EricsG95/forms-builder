@@ -15,6 +15,8 @@ export class CheckboxComponent implements Field {
   checks: any = [];
   selected: any;
 
+  customOtherOption = '';
+
   onChange($event): void {
     const checks = (this.group.get(this.config.name) as FormArray) as FormArray;
 
@@ -23,6 +25,21 @@ export class CheckboxComponent implements Field {
     } else {
       const i = checks.controls.findIndex(
         (x) => x.value === $event.source.value
+      );
+      checks.removeAt(i);
+    }
+  }
+
+  onChangeOther($event): void {
+    console.log('customOtherOption', this.customOtherOption);
+
+    const checks = (this.group.get(this.config.name) as FormArray) as FormArray;
+
+    if ($event.checked) {
+      checks.push(new FormControl(this.customOtherOption));
+    } else {
+      const i = checks.controls.findIndex(
+        (x) => x.value === this.customOtherOption
       );
       checks.removeAt(i);
     }
