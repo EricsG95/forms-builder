@@ -14,6 +14,14 @@ While working on this project, one key factor that I have taken into considerati
 
 Such a design lays a strong foundation to build a project that is scalable and maintainable over a long run and providing a great developer experience and importantly **making new features and future changes cost efficient.**
 
+## Screens
+### Form Builder
+![Builder](https://ibb.co/3YRVJLg)
+### Edit Question
+![Builder](https://ibb.co/024hCrG)
+### Form Playback
+![Playback](https://ibb.co/j5c5j8S)
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
